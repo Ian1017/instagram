@@ -5,18 +5,18 @@ import datetime as dt
 from django.contrib.auth.models import User
 
 # Create your models here.
-class User(models.Model):
-    user_name = models.CharField(max_length =30)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length =30)
-    email = models.EmailField()
+#class User(models.Model):
+#    user_name = models.CharField(max_length =30)
+#    first_name = models.CharField(max_length=30)
+#    last_name = models.CharField(max_length =30)
+#    email = models.EmailField()
 
-     def __str__(self):
-        return self.user_name
-    class Meta:
-        ordering = ['user_name']
-    def save_user(self):
-        self.save()
+#     def __str__(self):
+#        return self.user_name
+#    class Meta:
+#        ordering = ['user_name']
+#    def save_user(self):
+#        self.save()
 
 class tags(models.Model):
     name = models.CharField(max_length= 20)
@@ -66,6 +66,37 @@ class Profile(models.Model):
         verbose_name = 'Profile'
         verbose_name_plural = 'Profiles'
 
+    @property
+    def all_comments(self):
+        return self.comments.all()
+
+class Post(models.Model):
+    image = models.ImageField(upload_to= 'images/')
+    post_name = models.CharField(max_length=20)
+    post_caption = models.TextField()
+    user = models.ForeignKey(User, related_name='posts')
+    tags = models.ManyToManyField(tags)
+    likes = models.ManyToManyField(User, related_name= 'likes', blank = True)
+    pub_date = models.DateTimeField(auto_now_add= True)
+
+    def save_post(self):
+        self.save()
+
+    def delete_post(self):
+        self.delete()
+
+    @classmethod
+    def get_post(cls):
+        images = cls.objects.all()
+        return images
+
+    def total_likes(self):
+        self.likes.count()
+
+    class Meta:
+        ordering = ["-pk"]
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
     @property
     def all_comments(self):
         return self.comments.all()
