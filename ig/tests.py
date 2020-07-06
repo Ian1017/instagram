@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import User,tags
+from .models import User,Profile,Comment
 
 # Create your tests here.
 class UserTestClass(TestCase):

@@ -45,7 +45,7 @@
             </div>
         </div>
 </div> -->
-<nav class="navbar navbar-dark fixed-top mb-4" style="padding-top: 0; padding-bottom:0; background:#fff;">
+<nav class="navbar navbar-dark sticky-top mb-4" style="padding-top: 0; padding-bottom:0; background:#fff;">
     <div class="container">
       <a class="nav-link" href="{% url 'welcome' %}" style="font-family: 'Lobster', cursive; font-size:50px;">
       <img alt="Brand" src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png">
@@ -56,7 +56,8 @@
             <input type="submit" name="" id="" hidden>
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
-  <ul>
+        {% if user.is_authenticated %}
+        <ul>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
                             <span class="caret"></span>
@@ -74,5 +75,11 @@
                   </ul>
                 </li>
               </ul>
+              {% else %}
+              <li>
+                <a class='btn btn-default' href="/accounts/login">Login</a>
+              </li>
+  
+              {% endif %}
     </div>
   </nav> 
