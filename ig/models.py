@@ -5,17 +5,18 @@ import datetime as dt
 from django.contrib.auth.models import User
 
 # Create your models here.
-#class Editor(models.Model):
-#   first_name = models.CharField(max_length =30)
- #   last_name = models.CharField(max_length =30)
- #   email = models.EmailField()
+class User(models.Model):
+    user_name = models.CharField(max_length =30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length =30)
+    email = models.EmailField()
 
- #   def __str__(self):
- #       return self.first_name
- #   class Meta:
- #       ordering = ['first_name']
- #   def save_editor(self):
- #       self.save()
+     def __str__(self):
+        return self.user_name
+    class Meta:
+        ordering = ['user_name']
+    def save_user(self):
+        self.save()
 
 class tags(models.Model):
     name = models.CharField(max_length= 20)
@@ -23,17 +24,13 @@ class tags(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name = 'tag'
-        verbose_name_plural = 'tags' 
-
 class Profile(models.Model):
-    editor = models.ForeignKey(User,on_delete=models.CASCADE)
-    profile_image = models.ImageField( upload_to='profile_pics')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    profile_image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email = models.EmailField()
-    bio = models.TextField(default="Type your bio")
+    bio = models.TextField(default="Hello Guys")
 
     def __str__(self):
         return f'{self.user.username}'
@@ -72,6 +69,7 @@ class Profile(models.Model):
     @property
     def all_comments(self):
         return self.comments.all()
+
 
 class NewsletterRecipients(models.Model):
     name = models.CharField(max_length=30)
