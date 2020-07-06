@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Editor,Profile
+from .models import Editor,Profile,tags
 
 # Create your tests here.
 class EditorTestClass(TestCase):
