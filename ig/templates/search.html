@@ -1,0 +1,40 @@
+{% extends 'all-instagram/base.html'%}
+{% block content %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<div class="container">
+  <div class="row text-center">
+    {% if profile %}
+    <h2> Found {{profile|length}} users with the search term "{{message}}"</h2>
+    {% else %}
+    <h2> Found 0 users for the search term "{{message}}"</h2>
+    {% endif %}
+  </div>
+
+  {% if profile %}
+  <div class="text-center">
+    <div class="panel" style="width: 40rem;">
+      <!-- <div class="custom-card-header"> -->
+      <div class="panel-body">
+        {% for profile in profile%}
+        <!-- <div class="custom-card-header"> -->
+
+        <div class="users-image">
+          <img src="{{profile.profile_image.url}}?w=50&h=50&fit=crop" class="gallery-image" alt=""  width=8 height=8>
+          <div class="search-username-center">
+          <p class="username profile-username"style="margin:auto;"><a href="/user-profile/{{user.id}}" style="color:black;"> {{profile.username}}</a></p>
+        </div>
+        </div>
+        <!-- </div> -->
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+    {%endif %}
+</div>
+
+{% endblock %} 
