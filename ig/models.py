@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 import datetime as dt
 from django.contrib.auth.models import User
 
@@ -26,7 +28,7 @@ class tags(models.Model):
         verbose_name_plural = 'tags' 
 
 class Profile(models.Model):
-        editor = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    editor = models.ForeignKey(User,on_delete=models.CASCADE)
     profile_image = models.ImageField( upload_to='profile_pics')
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
