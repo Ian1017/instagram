@@ -1,7 +1,89 @@
-{% extends 'all-instagram/base.html'%}
+{%extends 'all-instagram/base.html'%}
+{% load bootstrap4 %}
+
+
 {% block content %}
+{{block.super}}
+<div class="container">
 
+    <div class="row">
+    <div class="col-md-8">
 
-<h1> Instagram</h1>
+    {% for image in images %}
 
-{% endblock %} 
+        <br>
+        <div class="card" style="border-radius: 20px;">
+            <div class="card-body">
+                <div class="card-title">
+
+                    <img src="{{image.user.profile.profile_image.url}}" class="rounded-circle border" alt="{{image.user.username}}" width="70" height="70">
+
+                    <a href="{% url 'aboutuser' user_id=image.user.id %}">
+                        <strong style="color: #333333;cursor: pointer; margin-left: 10px; font-size: 19px;">{{image.user.username}}</strong>
+                    </a>
+                </div>
+            </div>
+            <div class="card-text">
+                <img class="card-img-top" src="{{image.image.url}}" class="img-responsive" alt="Image" >
+                <div>
+                <a class='info' href="{% url 'likePost' image.id %}" style="color: black;">
+                    {%if image.likes.id == user.id%}
+                    <i class="fas fa-heart" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></i>
+                    {%else%}
+                    <i class="far fa-heart" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></i>
+                    {%endif%}
+                </a><span style="font-size:25px;">{{image.likes.count}} likes </span>
+                    <span class="far fa-comment" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></span>
+                    <span class="infotext" style="font-size: 30px; margin-left: 5px;margin-top: 15px;">{{image.comments.count}} comments</span>
+                </div>
+
+                <p style="margin-top: 20px; margin-left: 10px;"><strong>{{image.user.username}}</strong> {{image.post_caption}}</p>
+                <p style="margin-left: 10px;">{{image.pub_date |timesince}} ago</p>
+            </div>
+            <div>
+                {% if comments %}
+                <div style="border-bottom: solid 1px black;"></div>
+                {% endif %}
+                {% for comment in image.all_comments %}
+                <p>
+                    <strong style="margin-left: 10px;">{{comment.user.username}}:</strong> {{comment.text}}
+                </p>
+                {% endfor %}
+
+            <form style="margin-left: 10px;" action="{% url 'comment' post_id=image.id %}" method="post">
+                {% csrf_token %}
+                <div class="getinput" id="comment{{image.id}}">
+                    {{commentform.text}}
+                </div>
+            </form>
+        </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+        <div class="row">
+
+            {% for profile in profiles%}
+            <div class="col-md-12">
+                <br>
+                <div class="card">
+                <div class="card-body" >
+                    <div class="card-text">
+                        <p></p>
+                        {% if profile_image %}
+                        <img src="{{profile.profile_image.url}}" class="rounded-circle border" alt="{{profile.user.username}}" width="50" height="50">
+                        {% endif %}
+                        <a href="{% url 'aboutuser' user_id=profile.user.id %}">
+                            <strong style="color: #333333;cursor: pointer">{{profile.user.username}}</strong>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+                {% endfor %}
+            </div>
+        
+        </div>
+        </div>
+        </div>

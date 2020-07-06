@@ -12,6 +12,8 @@ urlpatterns=[
     url(r'^user/(?P<user_id>\d+)$', views.user, name='aboutuser'),
     url(r'^new/post/$', PostCreateView.as_view(), name = 'new-post'),
     url(r'^comment/(?P<post_id>\d+)$', views.comment, name='comment'),
+    url(r'^like/(\d+)',views.likePost, name="likePost"),
+
 ]
 if settings.DEBUG:
-    urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
+    urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 

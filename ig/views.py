@@ -15,6 +15,7 @@ def welcome(request):
 def welcome(request):
     images = Post.objects.all()
     profiles= Profile.objects.all()
+    print(profiles)
     commentform = CommentForm()
 
 
@@ -110,3 +111,18 @@ def comment(request, post_id):
     else:
         form = CommentForm()
     return redirect(request, 'index.html',{"commentform":commentform, "comments":comments})
+
+@login_required(login_url='/accounts/login/')
+def likePost(request,image_id):
+
+    image = Post.objects.get(pk = image_id)
+
+    is_liked = False
+    if image.likes.filter(id = request.user.id).exists():
+        image.likes.remove(request.user)
+        is_liked = False
+    else:
+        image.likes.add(request.user)
+        is_liked = True
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

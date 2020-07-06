@@ -1,0 +1,16 @@
+{%extends 'all-instagram/base.html'%}
+{% load bootstrap4 %}
+
+{% block content %}
+{{block.super}}
+<div class="container">
+    <form action="" method="POST" enctype="multipart/form-data" class="card form-inline">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- <input type="submit" class="btn btn-primary btn-sm" value="Upload"> -->
+        <button style="color: white;" type="submit" class="btn btn-dark btn-sm" >upload</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %
