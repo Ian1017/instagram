@@ -1,85 +1,44 @@
-<!--<div class="topnav">
-    <a class="nav-link" href="{% url 'welcome' %}" style="font-family: 'Lobster', cursive; font-size:50px;">
-      <img alt="Brand" src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png">
-      Instagram
-      </a>
-    <div class="search-container">
-        <form role="search" action="{% url 'search_results' %}">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
-      </form>
-              </div>
-              <div class="col-sm-6 col-md-6 kiss">
-              {% if user.is_authenticated %}
-              <ul>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                            <span class="caret"></span>
-                        </a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a href="{%url 'welcome'%}">Home</a>
-                    </li>
-                    <li>
-                      <a href="/accounts/password/change">Change Password</a>
-                    </li>
-                    <li>
-                      <a href="/logout">Logout</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              {% else %}
-              <li>
-                <a class='btn btn-default' href="/accounts/login">Login</a>
-              </li>
-  
-              {% endif %}
-            </div>
- <ul class="navbar-nav mr-auto" style="font-size: 30px; color: black; ">
-
-                  <li><a style="color: black;" href="#"><span class="fas fa-compass hoverable"></span></a></li>
-                  <li><a style="margin-left: 50px; color: black;" href=""><span class="fas fa-heart hoverable"></span></a></li>
-                  <li><a style="margin-left: 50px; color: black;" href=""><span class="fas fa-user hoverable"></span></a></li>
-              </ul> 
-            </div>
-        </div>
-</div> -->
+{% load static %}
 <nav class="navbar navbar-dark sticky-top mb-4" style="padding-top: 0; padding-bottom:0; background:#fff;">
-    <div class="container">
-      <a class="nav-link" href="{% url 'welcome' %}" style="font-family: 'Lobster', cursive; font-size:50px;">
-      <img alt="Brand" src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png">
-      Instagram
-      </a>
-        <form class="search mx-auto">
-            <input type="text" class="search-textbox" placeholder="Search">
-            <input type="submit" name="" id="" hidden>
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+  <div class="container">
+    <a class="nav-link" href="{% url 'welcome' %}" style="font-family: 'Lobster', cursive; font-size:50px;">
+    <img alt="Brand" src="https://img.icons8.com/ios-filled/50/000000/instagram-new.png">
+    Instagram
+    </a>
+      <form class="search mx-auto">
+          <input type="text" class="search-textbox" placeholder="Search">
+          <input type="submit" name="" id="" hidden>
+          <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
         {% if user.is_authenticated %}
         <ul>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                            <span class="caret"></span>
-                        </a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a href="{%url 'welcome'%}">Home</a>
-                    </li>
-                    <li>
-                      <a href="/accounts/password/change">Change Password</a>
-                    </li>
-                    <li>
-                      <a href="/logout">Logout</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              {% else %}
-              <li>
-                <a class='btn btn-default' href="/accounts/login">Login</a>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                          <span class="caret"></span>
+                      </a>
+                <ul class="dropdown-menu" role="menu">
+                  <li>
+                    <a href="{%url 'welcome'%}">Home</a>
+                  </li>
+                  <li>
+                    <a href="/accounts/password/change">Change Password</a>
+                  </li>
+                  <li>
+                    <a href="/logout">Logout</a>
+                  </li>
+                </ul>
               </li>
-  
-              {% endif %}
-    </div>
-  </nav> 
+            </ul>
+            {% else %}
+            <li>
+              <a class='btn btn-default' href="/accounts/login">Login</a>
+            </li>
+
+            {% endif %}
+            <ul class="navbar-nav mr-auto" style="font-size: 30px; color: black; ">
+              <li><a style="margin-left: 50px; color: black;" href="{% url 'new-post'%}"><span class="fas fa-heart hoverable"></span>Post</a></li>
+              <li><a style="margin-left: 50px; color: black;" href="{% url 'profile' %}"><span class="fas fa-user hoverable"></span></a></li>
+          </ul> 
+          
+  </div>
+</nav>

@@ -9,6 +9,7 @@ from .forms import NewsLetterForm,PostForm,CommentForm,ProfileForm
 def welcome(request):
     return render(request, 'all-instagram/index.html')
 
+@login_required(login_url='/accounts/login/')
 def welcome(request):
     images = Post.objects.all()
     profiles= Profile.objects.all()
@@ -70,5 +71,5 @@ def edit(request):
             return redirect('profile')
     else:
         new_profile = ProfileForm(instance=request.user.profile)
-    return render(request, 'edit.html')
+    return render(request, 'edit.html', {"profileform":new_profile})
 
