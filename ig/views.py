@@ -1,9 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 import datetime as dt
 from .models import tags,Profile,Comment,Post,User
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import NewsLetterForm,PostForm,CommentForm,ProfileForm
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def welcome(request):
@@ -73,3 +75,38 @@ def edit(request):
         new_profile = ProfileForm(instance=request.user.profile)
     return render(request, 'edit.html', {"profileform":new_profile})
 
+@login_required(login_url='/accounts/login/')
+def user(request, user_id):
+    user_object=get_object_or_404(User, pk=user_id)
+    commentform = CommentForm()
+    if request.user == user_object:
+        return redirect('profile')
+    user_images = user_object.posts.all()
+    return render(request, 'userprofile.html')
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['image', 'post_caption']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    success_url="/"
+
+@login_required(login_url='/accounts/login/')
+def comment(request, post_id):
+    commentform = CommentForm()
+    comments=Comment.objects.all()
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.photo = post
+            comment.save()
+            return redirect('/')
+    else:
+        form = CommentForm()
+    return redirect(request, 'index.html',{"commentform":commentform, "comments":comments})

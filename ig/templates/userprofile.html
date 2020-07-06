@@ -1,0 +1,119 @@
+{% extends 'all-instagram/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<body class="profile-page">
+
+
+    <div class="page-header header-filter" data-parallax="true" style="background-color: black;"></div>
+        <div class="main main-raised">
+            <div class="profile-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 ml-auto mr-auto">
+                            <div class="profile">
+                                <div class="avatar">
+                                    <img src="{{user_object.profile.profile_image.url}}" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                                </div>
+                                <div class="name">
+                                    <h3 class="title">{{user_object.username}}</h3>
+                                    <button id="follow" class="editbtn {% if not isfollowing %}d-none{% endif %} btn-primary" onclick="togglefollow({{user_object.id}})">
+                                        <span class="edittext">Follow</span>
+                                    </button>
+                                    <button id="follown" class="btn {% if isfollowing %}d-none{% endif %} followbtn" onclick="togglefollow({{user_object.id}})">
+                                        <span class="edittext">Following</span>
+                                    </button>
+
+                                </div>
+
+                                <div style="margin-bottom: 15px; margin-top: 10px;">
+                                    <span class="info"><strong>1</strong> posts</span>
+                                    <span class="info"><strong>5</strong> followers</span>
+                                    <span class="info"><strong>3</strong> following</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class=" text-center" style="font-weight: bolder;">
+                            <div>
+                                <strong>{{ user_object.user.profile.first_name }} {{ user_object.profile.profile.last_name }}</strong>
+                            </div>
+                        <span>{{ user_object.profile.bio }}</span>
+                    </div>
+
+                    <div class="container">
+
+                            <div class="gallery row">
+                            {% for image in  user_images %}
+
+                            <div class="gallery-item col-md-4" tabindex="0">
+
+
+
+                            <img src="{{image.image.url}}" class="gallery-image" data-comid="{{post.id}}" data-toggle="modal" data-target="#cool{{image.id}}">
+
+                            </div>
+                            {% endfor %}
+                            </div>
+                            </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        {% for image in  user_images %}
+        <div class="modal fade" id="cool{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" >
+            <div class="modal-dialog modal-lg" role="document" style="width: 850px; border-radius: 20px;">
+                <div class="modal-content">
+                <div class="modal-body" >
+                    <img src="{{image.image.url}}" class="img-responsive" alt="Image" style="width: 765px; height: 550px;">
+
+                    <a class='info' href="{% url 'likePost' image.id %}" style="color: black;">
+                            {%if image.likes.id == user.id%}
+                            <i class="fas fa-heart" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></i>
+                            {%else%}
+                            <i class="far fa-heart" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></i>
+                            {%endif%}
+                        </a><span style="font-size:25px;">{{image.likes.count}} likes</span>
+                            <span class="far fa-comment" style="font-size: 30px; margin-left: 15px;margin-top: 15px;"></span>
+                            <span class="infotext" style="font-size: 30px; margin-left: 5px;margin-top: 15px;">{{image.comments.count}} comments</span>
+                        </div>
+                    <hr>
+                    <p style="margin-left: 10px;"><strong>{{image.user.username}}</strong> {{image.post_caption}}</p>
+
+                    <p style="margin-left: 10px;">Posted:{{image.pub_date |timesince}} ago</p>
+
+                    <div>
+                            {% if comments %}
+                            <div style="border-bottom: solid 1px black;"></div>
+                            {% endif %}
+                            {% for comment in image.all_comments|slice:"5" %}
+                            <p>
+                                <strong style="margin-left: 10px;">{{comment.user.username}}:</strong> {{comment.text}}
+                            </p>
+                            {% endfor %}
+                            <hr>
+                        <form class="text-center"  action="{% url 'comment' post_id=image.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="getinput" id="comment{{image.id}}">
+                                {{commentform.text}}
+                            </div>
+                        </form>
+                        </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+                </div>
+            </div>
+
+
+            </div>
+            {% endfor %}
+
+    </body>
+{% endblock %} 
