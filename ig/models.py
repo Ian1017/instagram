@@ -101,7 +101,18 @@ class Post(models.Model):
     def all_comments(self):
         return self.comments.all()
 
+class Comment(models.Model):
+    text = models.TextField()
+    photo = models.ForeignKey(Post, related_name='comments')
+    user = models.ForeignKey(User, related_name='comments')
 
+    class Meta:
+        ordering = ["-pk"]
+
+
+    def get_absolute_url(self):
+        return reverse('welcome')
+        
 class NewsletterRecipients(models.Model):
     name = models.CharField(max_length=30)
     email = models.EmailField() 
